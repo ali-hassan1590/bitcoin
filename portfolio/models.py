@@ -7,7 +7,9 @@ from trading.models import Asset
 class Portfolio(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="portfolio_holdings"
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="portfolio_holdings",
     )
     asset = models.ForeignKey(Asset, on_delete=models.CASCADE, related_name="held_by")
     quantity = models.DecimalField(max_digits=15, decimal_places=4, default=0)

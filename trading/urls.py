@@ -1,10 +1,10 @@
 from django.urls import path
 from .views import (
-    AssetListCreateView, 
-    AssetDetailView, 
-    BuyOrderView, 
+    AssetListCreateView,
+    AssetDetailView,
+    BuyOrderView,
     SellOrderView,
-    TransactionListView, 
+    TransactionListView,
     WatchlistListCreateView,
 )
 

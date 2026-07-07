@@ -4,7 +4,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Asset, Order, Transaction, Watchlist
 from .serializers import (
-    AssetSerializer, OrderCreateSerializer, TransactionSerializer, WatchlistSerializer,
+    AssetSerializer,
+    OrderCreateSerializer,
+    TransactionSerializer,
+    WatchlistSerializer,
 )
 from .throttles import OrderRateThrottle
 
@@ -61,7 +64,9 @@ class TransactionListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Transaction.objects.filter(user=self.request.user).order_by("-executed_at")
+        return Transaction.objects.filter(user=self.request.user).order_by(
+            "-executed_at"
+        )
 
 
 class WatchlistListCreateView(generics.ListCreateAPIView):
@@ -73,6 +78,7 @@ class WatchlistListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
 
 class AssetDetailView(generics.RetrieveUpdateAPIView):
     queryset = Asset.objects.all()

@@ -38,9 +38,15 @@ class Order(models.Model):
     )
     asset = models.ForeignKey(Asset, on_delete=models.PROTECT, related_name="orders")
     order_type = models.CharField(max_length=4, choices=OrderType.choices)
-    quantity = models.DecimalField(max_digits=15, decimal_places=4, validators=[MinValueValidator(0.0001)])
-    price = models.DecimalField(max_digits=15, decimal_places=2)  # price at time of order
-    status = models.CharField(max_length=10, choices=Status.choices, default=Status.PENDING)
+    quantity = models.DecimalField(
+        max_digits=15, decimal_places=4, validators=[MinValueValidator(0.0001)]
+    )
+    price = models.DecimalField(
+        max_digits=15, decimal_places=2
+    )  # price at time of order
+    status = models.CharField(
+        max_length=10, choices=Status.choices, default=Status.PENDING
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -53,8 +59,12 @@ class Transaction(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="transactions"
     )
-    order = models.OneToOneField(Order, on_delete=models.PROTECT, related_name="transaction")
-    asset = models.ForeignKey(Asset, on_delete=models.PROTECT, related_name="transactions")
+    order = models.OneToOneField(
+        Order, on_delete=models.PROTECT, related_name="transaction"
+    )
+    asset = models.ForeignKey(
+        Asset, on_delete=models.PROTECT, related_name="transactions"
+    )
     order_type = models.CharField(max_length=4, choices=Order.OrderType.choices)
     quantity = models.DecimalField(max_digits=15, decimal_places=4)
     price = models.DecimalField(max_digits=15, decimal_places=2)
@@ -70,7 +80,9 @@ class Watchlist(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="watchlist"
     )
-    asset = models.ForeignKey(Asset, on_delete=models.CASCADE, related_name="watched_by")
+    asset = models.ForeignKey(
+        Asset, on_delete=models.CASCADE, related_name="watched_by"
+    )
     added_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

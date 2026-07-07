@@ -11,7 +11,15 @@ from notifications.tasks import send_order_notification
 class AssetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Asset
-        fields = ["id", "symbol", "name", "asset_type", "current_price", "is_active", "created_at"]
+        fields = [
+            "id",
+            "symbol",
+            "name",
+            "asset_type",
+            "current_price",
+            "is_active",
+            "created_at",
+        ]
         read_only_fields = ["id", "created_at"]
 
 
@@ -74,7 +82,8 @@ class OrderCreateSerializer(serializers.Serializer):
 
             wallet = Wallet.objects.select_for_update().get(user=request.user)
             holding, _ = Portfolio.objects.select_for_update().get_or_create(
-                user=request.user, asset=asset,
+                user=request.user,
+                asset=asset,
                 defaults={"quantity": 0, "average_buy_price": 0},
             )
 
@@ -123,7 +132,15 @@ class TransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ["id", "asset_symbol", "order_type", "quantity", "price", "total_amount", "executed_at"]
+        fields = [
+            "id",
+            "asset_symbol",
+            "order_type",
+            "quantity",
+            "price",
+            "total_amount",
+            "executed_at",
+        ]
 
 
 class WatchlistSerializer(serializers.ModelSerializer):
@@ -137,4 +154,4 @@ class WatchlistSerializer(serializers.ModelSerializer):
     def validate_asset(self, value):
         if not value.is_active:
             raise serializers.ValidationError("Cannot watch an inactive asset.")
-        return value    
+        return value

@@ -9,6 +9,7 @@ from .models import User
 
 from .throttles import LoginRateThrottle
 
+
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
@@ -43,8 +44,13 @@ class LogoutView(APIView):
             token = RefreshToken(serializer.validated_data["refresh"])
             token.blacklist()
         except Exception:
-            return Response({"detail": "Invalid or expired token."}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({"detail": "Logged out successfully."}, status=status.HTTP_205_RESET_CONTENT)
+            return Response(
+                {"detail": "Invalid or expired token."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return Response(
+            {"detail": "Logged out successfully."}, status=status.HTTP_205_RESET_CONTENT
+        )
 
 
 class MeView(generics.RetrieveUpdateAPIView):
@@ -53,6 +59,7 @@ class MeView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
-    
+
+
 class LoginView(TokenObtainPairView):
     throttle_classes = [LoginRateThrottle]
